@@ -30,7 +30,7 @@ bool decide_encode(char char_code, char prev_code, char prev_char) {
 void encode_string(char name_ch, char* encoded_name, int* si, char prev_char) {
     char char_code = get_char_code(name_ch);
     char prev_char_code = get_char_code(prev_char);
-    if((char_code != '0') && decide_encode(char_code, prev_char_code, prev_char) {
+    if(char_code != '0' && decide_encode(char_code, prev_char_code, prev_char)) {
         encoded_name[*si] = char_code;
         (*si)++;
     }
