@@ -6,7 +6,7 @@
 #include <string.h>
 
 // Character to code mapping for soundex algorithm
-/*                   ABCDEFGHIJKLMNOPQRSTUVWXYZ */
+/*                 ABCDEFGHIJKLMNOPQRSTUVWXYZ */
 char CHAR_MAP[] = "01230120022455012623010202";
 
 #define IS_VALID_CHAR(c) ((c) >= 0 && (c) <= 25)
@@ -30,11 +30,10 @@ void encode_string(char name_ch, char* encoded_name, int* si) {
 }
 
 // Function to add zero padding to encoded name if applicable
-void add_zero_padding(char *s, int *si)
+void add_zero_padding(char *s, int idx)
 {
-    while (*si <= 3) {
-        s[*si] = '0';
-        (*si)++;
+    while (idx <= 3) {
+        s[idx++] = '0';
     }
 }
 
@@ -42,12 +41,13 @@ void add_zero_padding(char *s, int *si)
 void generateSoundex(const char *str, char *encoded_string)
 {
     int si = 1;
+    int str_len = strlen(str);
     encoded_string[0] = toupper(str[0]);
-    for(int i = 1, name_len = strlen(str); i < name_len && si <= 3; i++)
-    {
+    for(int i = 1; i < str_len && si <= 3; i++) {
         encode_string(str[i], encoded_string, &si);
     }
-    add_zero_padding(encoded_string, &si);
+    add_zero_padding(encoded_string, si);
+    encoded_string[4] = '\0';
 }
 
 #endif // SOUNDEX_H
