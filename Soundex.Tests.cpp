@@ -71,6 +71,16 @@ TEST(SoudexTestsuite, VowelSeparation) {
   char soundex[5];
   generateSoundex("Roses", soundex);
   EXPECT_STREQ(soundex,"R220");
+  generateSoundex("Rosas", soundex);
+  EXPECT_STREQ(soundex,"R220");
+  generateSoundex("Rosis", soundex);
+  EXPECT_STREQ(soundex,"R220");
+  generateSoundex("Rosos", soundex);
+  EXPECT_STREQ(soundex,"R220");
+  generateSoundex("Rosus", soundex);
+  EXPECT_STREQ(soundex,"R220");
+  generateSoundex("Rosys", soundex);
+  EXPECT_STREQ(soundex,"R220");
 }
 
 TEST(SoudexTestsuite, HorWSeparation) {
