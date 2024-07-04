@@ -10,7 +10,6 @@
 char CHAR_MAP[] = "01230120022455012623010202";
 
 #define IS_VALID_CHAR(c) ((c) >= 0 && (c) <= 25)
-#define IS_VOWEL(c)      ((c) == 'A' || (c) == 'E' || (c) == 'I' || (c) == 'O' || (c) == 'U' || (c) == 'Y')
 
 // Function to check validity and get char code for the given character
 char get_char_code(char c) {
@@ -21,16 +20,11 @@ char get_char_code(char c) {
     return '0';
 }
 
-// Function to decide whether to encode the character
-bool decide_encode(char char_code, char prev_code, char prev_char) {
-    return char_code != prev_code || IS_VOWEL(prev_char);
-}
-
 // Function to encode given name based on soundex algorithm
 void encode_string(char name_ch, char* encoded_name, int* si, char prev_char) {
     char char_code = get_char_code(name_ch);
     char prev_char_code = get_char_code(prev_char);
-    if(char_code != '0' && decide_encode(char_code, prev_char_code, prev_char)) {
+    if(char_code != '0' && char_code != prev_char_code) {
         encoded_name[*si] = char_code;
         (*si)++;
     }
