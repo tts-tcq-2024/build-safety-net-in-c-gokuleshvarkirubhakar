@@ -1,92 +1,42 @@
 #include <gtest/gtest.h>
 #include "Soundex.h"
 
-TEST(SoudexTestsuite, InvalidCharactersSpCharSet1) {
-  char soundex[5];
-  generateSoundex("A$SAM", soundex);
-  EXPECT_STREQ(soundex,"A250");
-}
+typedef struct
+{
+    const char *string;
+    const char *code;
+}stringCodeMap;
 
-TEST(SoudexTestsuite, InvalidCharactersSpCharSet2) {
-  char soundex[5];
-  generateSoundex("N^GALAND", soundex);
-  EXPECT_STREQ(soundex,"N245");
-}
+stringCodeMap StringCodeMap_st[] =
+{
+    {   "A$SAM",                            "A250" },
+    {   "N^GALAND",                         "N245" },
+    {   "",                                 ""     },
+    {   "Z",                                "Z000" },
+    {   "abcdefghijklmnopqrstuvwxyzab",     "A123" },
+    {   "AEIOU",                            "A000" },
+    {   "147!@#$",                          "1000" },
+    {   "P1Q2R2S3T4",                       "P262" },
+    {   "CLEANCODE",                        "C452" },
+    {   "ClEaNcOdE",                        "C452" },
+    {   "ZBFCGDTLMNR",                      "Z123" },
+    {   "Roses",                            "R220" },
+    {   "Rosas",                            "R220" },
+    {   "Rosos",                            "R220" },
+    {   "Rosus",                            "R220" },
+    {   "Rosis",                            "R220" },
+    {   "Rosys",                            "R220" },
+    {   "Burroughs",                        "B620" },
+    {   "MIJWKTS",                          "M232" },
+};
 
-TEST(SoudexTestsuite, EmptyCharacter) {
-  char soundex[5];
-  generateSoundex("", soundex);
-  EXPECT_STREQ(soundex,"");
-}
 
-TEST(SoudexTestsuite, SingleCharacter) {
+TEST(SoudexTestsuite, ValidateMappings) {
   char soundex[5];
-  generateSoundex("Z", soundex);
-  EXPECT_STREQ(soundex,"Z000");
-}
 
-TEST(SoudexTestsuite, MaximumCharacters) {
-  char soundex[5];
-  generateSoundex("abcdefghijklmnopqrstuvwxyzab", soundex);
-  EXPECT_STREQ(soundex,"A123");
-}
-
-TEST(SoudexTestsuite, AllVowels) {
-  char soundex[5];
-  generateSoundex("AEIOU", soundex);
-  EXPECT_STREQ(soundex,"A000");
-}
-
-TEST(SoudexTestsuite, NonMappableCharacters) {
-  char soundex[5];
-  generateSoundex("147!@#$", soundex);
-  EXPECT_STREQ(soundex,"1000");
-}
-
-TEST(SoudexTestsuite, MixCharacters) {
-  char soundex[5];
-  generateSoundex("P1Q2R2S3T4", soundex);
-  EXPECT_STREQ(soundex,"P262");
-}
-
-TEST(SoudexTestsuite, Normal) {
-  char soundex[5];
-  generateSoundex("CLEANCODE", soundex);
-  EXPECT_STREQ(soundex,"C452");
-}
-
-TEST(SoudexTestsuite, NormalMixedCase) {
-  char soundex[5];
-  generateSoundex("ClEaNcOdE", soundex);
-  EXPECT_STREQ(soundex,"C452");
-}
-
-TEST(SoudexTestsuite, SameMappingCharacters) {
-  char soundex[5];
-  generateSoundex("ZBFCGDTLMNR", soundex);
-  EXPECT_STREQ(soundex,"Z123");
-}
-
-TEST(SoudexTestsuite, VowelSeparation) {
-  char soundex[5];
-  generateSoundex("Roses", soundex);
-  EXPECT_STREQ(soundex,"R220");
-  generateSoundex("Rosas", soundex);
-  EXPECT_STREQ(soundex,"R220");
-  generateSoundex("Rosis", soundex);
-  EXPECT_STREQ(soundex,"R220");
-  generateSoundex("Rosos", soundex);
-  EXPECT_STREQ(soundex,"R220");
-  generateSoundex("Rosus", soundex);
-  EXPECT_STREQ(soundex,"R220");
-  generateSoundex("Rosys", soundex);
-  EXPECT_STREQ(soundex,"R220");
-}
-
-TEST(SoudexTestsuite, HorWSeparation) {
-  char soundex[5];
-  generateSoundex("Burroughs", soundex);
-  EXPECT_STREQ(soundex,"B620");
-  generateSoundex("MIJWKTS", soundex);
-  EXPECT_STREQ(soundex,"M232");
+  for(int i = 0; i < 19; i++)
+  {
+      generateSoundex(StringCodeMap_st[i].string, soundex);
+      EXPECT_STREQ(soundex, StringCodeMap_st[i].code);
+  }
 }
